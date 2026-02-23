@@ -14,11 +14,20 @@ import lombok.RequiredArgsConstructor;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public Product createProduct(Product product){
+    public Product createProduct(Product product) {
         return productRepository.save(product);
     }
 
-    public List<Product> getAllProduct(){
+    public List<Product> getAllProduct() {
         return productRepository.findAll();
+    }
+
+    public Product getProductById(Long id){
+        return productRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("Product not found"));
+    }
+
+    public void deleteProduct(Long id){
+        productRepository.deleteById(id);
     }
 }

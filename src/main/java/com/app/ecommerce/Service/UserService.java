@@ -1,5 +1,6 @@
 package com.app.ecommerce.service;
 
+import java.util.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,5 +29,18 @@ public class UserService {
             throw new RuntimeException("Invalid Password");
         }
         return user;
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User getUserById(Long id){
+        return userRepository.findById(id)
+        .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public void deleteUser(Long id){
+        userRepository.deleteById(id);
     }
 }
