@@ -1,4 +1,4 @@
-package com.app.ecommerce.Repository;
+package com.app.ecommerce.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.app.ecommerce.entity.Product;

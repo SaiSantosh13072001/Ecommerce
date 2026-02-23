@@ -1,7 +1,8 @@
-package com.app.ecommerce.Controller;
+package com.app.ecommerce.controller;
 
 import com.app.ecommerce.entity.Product;
-import com.app.ecommerce.Service.ProductService;
+import com.app.ecommerce.service.ProductService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
