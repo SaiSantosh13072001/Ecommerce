@@ -13,13 +13,14 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    @Enumerated(EnumType.STRING)
+    private Role role;  // USER or ADMIN
+    
     private String name;
 
     @Column(unique = true)
     private String email;
 
-    private String password;
-
-    private String role; // USER or ADMIN
+    private String password;  
 }
