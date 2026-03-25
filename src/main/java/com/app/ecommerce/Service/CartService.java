@@ -14,28 +14,33 @@ public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
+    private final UserService userService;
 
     public CartService(CartRepository cartRepository,
                        CartItemRepository cartItemRepository,
                        ProductRepository productRepository,
-                       UserRepository userRepository) {
+                       UserRepository userRepository,
+                    UserService userService) {
         this.cartRepository = cartRepository;
         this.cartItemRepository = cartItemRepository;
         this.productRepository = productRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     // 🛒 Get or create cart
     public Cart getCartByUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
         return cartRepository.findByUser(user)
                 .orElseGet(() -> cartRepository.save(new Cart(user)));
     }
 
     // ➕ Add product to cart
-    public Cart addToCart(Long userId, Long productId, int quantity) {
+    public Cart addToCart(Long productId, int quantity) {
 
-        Cart cart = getCartByUser(userId);
+        User user = userService.getCurrentUser();
+
+        Cart cart = getCartByUser(user.getId());
         Product product = productRepository.findById(productId).orElseThrow();
 
         Optional<CartItem> existingItem = cart.getItems()
@@ -57,8 +62,9 @@ public class CartService {
     }
 
     // 📄 View cart
-    public List<CartItem> viewCart(Long userId) {
-        return getCartByUser(userId).getItems();
+    public List<CartItem> viewCart() {
+        User user = userService.getCurrentUser();
+        return getCartByUser(user.getId()).getItems();
     }
 
     // ❌ Remove item

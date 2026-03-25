@@ -18,17 +18,16 @@ public class CartController {
     }
 
     // ➕ Add to cart
-    @PostMapping("/add")
-    public Cart addToCart(@RequestParam Long userId,
-                          @RequestParam Long productId,
+    @PostMapping
+    public Cart addToCart(@RequestParam Long productId,
                           @RequestParam int quantity) {
-        return cartService.addToCart(userId, productId, quantity);
+        return cartService.addToCart(productId, quantity);
     }
 
     // 📄 View cart
-    @GetMapping("/{userId}")
-    public List<CartItem> viewCart(@PathVariable Long userId) {
-        return cartService.viewCart(userId);
+    @GetMapping
+    public List<CartItem> viewCart() {
+        return cartService.viewCart();
     }
 
     // ❌ Remove item
