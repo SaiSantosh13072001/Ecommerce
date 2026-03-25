@@ -4,8 +4,10 @@ import java.util.*;
 
 import com.app.ecommerce.entity.Role;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
 
 import com.app.ecommerce.entity.User;
 import com.app.ecommerce.repository.UserRepository;
@@ -34,6 +36,15 @@ public class UserService {
             throw new RuntimeException("Invalid Password");
         }
         return user;
+    }
+
+    public User getCurrentUser() {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName(); // comes from JWT
+
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     public List<User> getAllUsers() {
